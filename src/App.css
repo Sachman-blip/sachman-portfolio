@@ -34,7 +34,7 @@ button {
   background:
     radial-gradient(circle at 20% 10%, rgba(0, 191, 255, 0.18), transparent 30%),
     radial-gradient(circle at 90% 0%, rgba(168, 85, 247, 0.2), transparent 30%),
-    radial-gradient(circle at 50% 100%, rgba(34, 197, 94, 0.12), transparent 35%),
+    radial-gradient(circle at 50% 100%, rgba(255, 70, 70, 0.12), transparent 35%),
     #050505;
 }
 
@@ -62,6 +62,7 @@ button {
   align-items: center;
   gap: 10px;
   font-weight: 800;
+  font-size: 19px;
 }
 
 .logo span {
@@ -95,7 +96,8 @@ button {
   padding: 130px max(6vw, 28px) 80px;
 }
 
-.gridBg {
+.hero::before {
+  content: "";
   position: absolute;
   inset: 0;
   background-image:
@@ -104,6 +106,29 @@ button {
   background-size: 58px 58px;
   mask-image: radial-gradient(circle at center, black, transparent 72%);
   opacity: 0.35;
+}
+
+.heroGlow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.55;
+}
+
+.heroGlowOne {
+  width: 360px;
+  height: 360px;
+  background: #38bdf8;
+  left: 8%;
+  top: 22%;
+}
+
+.heroGlowTwo {
+  width: 380px;
+  height: 380px;
+  background: #ef4444;
+  right: 7%;
+  bottom: 10%;
 }
 
 .heroText,
@@ -123,13 +148,13 @@ button {
 
 h1 {
   margin: 24px 0 0;
-  font-size: clamp(48px, 8vw, 96px);
-  line-height: 0.92;
-  letter-spacing: -0.075em;
+  font-size: clamp(52px, 8vw, 104px);
+  line-height: 0.9;
+  letter-spacing: -0.08em;
 }
 
 h1 span {
-  background: linear-gradient(90deg, #38bdf8, #a78bfa, #22c55e);
+  background: linear-gradient(90deg, #38bdf8, #a78bfa, #22c55e, #ef4444);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -158,6 +183,7 @@ h1 span {
   padding: 15px 20px;
   border-radius: 18px;
   font-weight: 800;
+  transition: 0.25s ease;
 }
 
 .primaryBtn {
@@ -171,6 +197,11 @@ h1 span {
   border: 1px solid rgba(255,255,255,0.12);
 }
 
+.primaryBtn:hover,
+.secondaryBtn:hover {
+  transform: translateY(-4px);
+}
+
 .heroCard {
   min-height: 500px;
   padding: 34px;
@@ -181,45 +212,52 @@ h1 span {
   border-radius: 34px;
   background: linear-gradient(145deg, rgba(255,255,255,0.13), rgba(255,255,255,0.045));
   border: 1px solid rgba(255,255,255,0.15);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 35px 100px rgba(0,0,0,0.42);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.18),
+    0 35px 100px rgba(0,0,0,0.42);
 }
 
-.glowCircle {
+.heroCard::before {
+  content: "";
   position: absolute;
-  border-radius: 50%;
-  filter: blur(8px);
-  opacity: 0.85;
-}
-
-.glowCircle.one {
   width: 240px;
   height: 240px;
-  background: #38bdf8;
   top: -60px;
   right: -60px;
+  border-radius: 50%;
+  background: #38bdf8;
+  filter: blur(8px);
+  opacity: 0.8;
 }
 
-.glowCircle.two {
-  width: 180px;
-  height: 180px;
-  background: #8b5cf6;
-  bottom: 170px;
+.heroCard::after {
+  content: "";
+  position: absolute;
+  width: 190px;
+  height: 190px;
+  bottom: 140px;
   left: -50px;
+  border-radius: 50%;
+  background: #ef4444;
+  filter: blur(10px);
+  opacity: 0.55;
 }
 
 .cardLabel {
-  color: #38bdf8;
-  font-weight: 800;
+  position: relative;
+  color: #f87171;
+  font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   font-size: 13px;
 }
 
 .heroCard h2 {
   position: relative;
   margin: 0;
-  font-size: clamp(28px, 4vw, 48px);
-  letter-spacing: -0.05em;
+  font-size: clamp(30px, 4vw, 50px);
+  letter-spacing: -0.055em;
+  line-height: 1;
 }
 
 .heroCard p {
@@ -252,8 +290,8 @@ h1 span {
   color: #38bdf8;
 }
 
-.pink {
-  color: #f472b6;
+.red {
+  color: #f87171;
 }
 
 .section {
@@ -275,40 +313,126 @@ h1 span {
 }
 
 .sectionTitle h2 {
-  max-width: 850px;
+  max-width: 900px;
   margin: 10px 0 0;
-  font-size: clamp(34px, 5vw, 62px);
+  font-size: clamp(34px, 5vw, 64px);
   line-height: 1;
   letter-spacing: -0.06em;
 }
 
-.aboutGrid {
+.aboutLongSection {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(56, 189, 248, 0.12), transparent 30%),
+    radial-gradient(circle at 85% 80%, rgba(239, 68, 68, 0.1), transparent 32%);
+}
+
+.aboutLongGrid {
   display: grid;
-  grid-template-columns: 1.3fr 0.85fr 0.85fr;
+  grid-template-columns: 1.35fr 0.75fr;
+  gap: 22px;
+  align-items: start;
+}
+
+.aboutLongMain,
+.aboutMiniCard {
+  border: 1px solid rgba(255,255,255,0.12);
+  background: linear-gradient(145deg, rgba(255,255,255,0.105), rgba(255,255,255,0.045));
+  border-radius: 28px;
+  padding: 30px;
+  box-shadow: 0 24px 70px rgba(0,0,0,0.26);
+  transition: 0.25s ease;
+}
+
+.aboutLongMain h3 {
+  margin-top: 0;
+  font-size: clamp(30px, 4vw, 52px);
+  letter-spacing: -0.055em;
+}
+
+.aboutLongMain p,
+.aboutMiniCard p {
+  color: #cfcfcf;
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.aboutSideStack {
+  display: grid;
   gap: 18px;
 }
 
-.glass {
-  padding: 26px;
-  border-radius: 28px;
-  background: rgba(255,255,255,0.065);
+.aboutMiniCard h3 {
+  margin-top: 0;
+  font-size: 24px;
+}
+
+.aboutMiniCard:hover,
+.aboutLongMain:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255,255,255,0.25);
+}
+
+.athleteSection {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 80, 80, 0.16), transparent 30%),
+    radial-gradient(circle at 80% 80%, rgba(56, 189, 248, 0.14), transparent 32%);
+}
+
+.athleteGrid {
+  display: grid;
+  grid-template-columns: 1.4fr 0.8fr 0.8fr 0.8fr;
+  gap: 18px;
+}
+
+.athleteMain,
+.athleteCard {
   border: 1px solid rgba(255,255,255,0.12);
+  background: linear-gradient(145deg, rgba(255,255,255,0.11), rgba(255,255,255,0.045));
+  border-radius: 28px;
+  padding: 28px;
   box-shadow: 0 24px 70px rgba(0,0,0,0.26);
+  transition: 0.25s ease;
 }
 
-.glass svg {
-  color: #38bdf8;
+.athleteMain {
+  min-height: 330px;
 }
 
-.glass p {
-  color: #c7c7c7;
-  line-height: 1.7;
+.athleteTag {
+  display: inline-block;
+  padding: 9px 13px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.09);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #f87171;
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
 }
 
-.glass.big p {
-  font-size: 22px;
-  line-height: 1.65;
-  color: #e0e0e0;
+.athleteMain h3 {
+  margin: 24px 0 16px;
+  font-size: clamp(30px, 4vw, 54px);
+  line-height: 1;
+  letter-spacing: -0.06em;
+}
+
+.athleteMain p,
+.athleteCard p {
+  color: #cfcfcf;
+  line-height: 1.75;
+}
+
+.athleteCard h3 {
+  font-size: 24px;
+  margin-top: 0;
+}
+
+.athleteCard:hover,
+.athleteMain:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255,255,255,0.25);
 }
 
 .projectGrid {
@@ -328,6 +452,7 @@ h1 span {
   border-radius: 28px;
   background: linear-gradient(145deg, rgba(255,255,255,0.105), rgba(255,255,255,0.045));
   overflow: hidden;
+  transition: 0.25s ease;
 }
 
 .projectCard::before {
@@ -339,23 +464,17 @@ h1 span {
   transition: 0.25s;
 }
 
+.projectCard:hover {
+  transform: translateY(-8px);
+  border-color: rgba(255,255,255,0.25);
+}
+
 .projectCard:hover::before {
   opacity: 1;
 }
 
 .projectCard > * {
   position: relative;
-}
-
-.projectIcon {
-  width: 54px;
-  height: 54px;
-  display: grid;
-  place-items: center;
-  margin-bottom: 20px;
-  border-radius: 18px;
-  color: #050505;
-  background: white;
 }
 
 .projectType {
@@ -401,6 +520,12 @@ h1 span {
   color: #e7e7e7;
   background: rgba(255,255,255,0.075);
   border: 1px solid rgba(255,255,255,0.12);
+  transition: 0.25s ease;
+}
+
+.skills span:hover {
+  transform: translateY(-4px);
+  background: rgba(255,255,255,0.13);
 }
 
 .contact {
@@ -411,7 +536,10 @@ h1 span {
   padding: clamp(28px, 6vw, 64px);
   border-radius: 38px;
   text-align: center;
-  background: linear-gradient(135deg, rgba(56,189,248,0.18), rgba(139,92,246,0.16), rgba(34,197,94,0.12));
+  background:
+    radial-gradient(circle at 20% 20%, rgba(56,189,248,0.2), transparent 30%),
+    radial-gradient(circle at 80% 80%, rgba(239,68,68,0.18), transparent 30%),
+    linear-gradient(135deg, rgba(56,189,248,0.12), rgba(139,92,246,0.13));
   border: 1px solid rgba(255,255,255,0.15);
 }
 
@@ -442,6 +570,13 @@ h1 span {
   border-radius: 17px;
   background: rgba(0,0,0,0.38);
   border: 1px solid rgba(255,255,255,0.15);
+  transition: 0.25s ease;
+}
+
+.contactButtons a:hover {
+  transform: translateY(-5px);
+  background: white;
+  color: black;
 }
 
 footer {
@@ -458,7 +593,7 @@ footer {
   display: grid;
   place-items: center;
   padding: 20px;
-  background: rgba(0,0,0,0.68);
+  background: rgba(0,0,0,0.72);
   backdrop-filter: blur(14px);
 }
 
@@ -477,9 +612,11 @@ footer {
   top: 18px;
   right: 18px;
   color: white;
+  font-size: 28px;
+  line-height: 1;
   cursor: pointer;
   border-radius: 14px;
-  padding: 10px;
+  padding: 6px 12px;
   background: rgba(255,255,255,0.08);
   border: 1px solid rgba(255,255,255,0.12);
 }
@@ -520,8 +657,16 @@ footer {
 
 @media (max-width: 1050px) {
   .hero,
-  .aboutGrid {
+  .aboutLongGrid {
     grid-template-columns: 1fr;
+  }
+
+  .athleteGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .athleteMain {
+    grid-column: 1 / -1;
   }
 
   .projectGrid {
@@ -534,15 +679,34 @@ footer {
 }
 
 @media (max-width: 720px) {
+  .navbar {
+    height: auto;
+    padding: 14px;
+  }
+
   .navLinks {
     display: none;
   }
 
   .hero {
-    padding-top: 115px;
+    grid-template-columns: 1fr;
+    padding-top: 120px;
   }
 
+  h1 {
+    font-size: clamp(48px, 16vw, 72px);
+  }
+
+  .athleteGrid,
   .projectGrid {
     grid-template-columns: 1fr;
+  }
+
+  .contactButtons {
+    flex-direction: column;
+  }
+
+  .contactButtons a {
+    justify-content: center;
   }
 }

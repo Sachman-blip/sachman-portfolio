@@ -130,35 +130,78 @@ export default function App() {
         </div>
       </section>
 
-      <section className="section" id="about">
+      <section className="section aboutLongSection" id="about">
         <div className="sectionTitle">
           <p>About Me</p>
-          <h2>Not just learning engineering. Building it.</h2>
+          <h2>Curious by nature. Disciplined by sport. Driven by engineering.</h2>
         </div>
 
-        <div className="aboutGrid">
-          <div className="glass big">
+        <div className="aboutLongGrid">
+          <div className="aboutLongMain">
+            <h3>Hi, I’m Sachman Singh.</h3>
+
             <p>
-              I am a Class 12 PCM student focused on electrical engineering,
-              electronics, robotics, and product-style CAD design. I like
-              building projects that move, sense, react, and actually work.
+              I was born and raised in Jalandhar, Punjab, and I have always
+              been curious about the world around me. I like understanding how
+              things work, why they work, and how I can make them better.
+            </p>
+
+            <p>
+              My real curiosity to learn and build became stronger after my
+              Class 12 board exams ended. As soon as I had the time, I started
+              working on my interests seriously — electronics, robotics, CAD
+              design, hardware, software, and practical engineering projects.
+            </p>
+
+            <p>
+              My interest in electronics started when I saw cool technology and
+              my brain immediately began thinking of ideas. Instead of only
+              imagining them, I decided to act on them. I started building
+              projects using ESP32, Arduino, sensors, motors, displays, and
+              custom wiring.
+            </p>
+
+            <p>
+              I also developed a strong interest in CAD design. I enjoy
+              designing parts, enclosures, stands, brackets, and product
+              concepts. My goal is to take some of my ideas beyond prototypes
+              and eventually make them commercial products.
+            </p>
+
+            <p>
+              I am learning to build the full system myself — hardware,
+              software, and CAD design. That is what excites me the most:
+              taking an idea from my mind and turning it into something real.
             </p>
           </div>
 
-          <div className="glass">
-            <h3>Hands-On Builder</h3>
-            <p>
-              ESP32, Arduino, sensors, displays, motors, wiring, debugging, and
-              real prototypes.
-            </p>
-          </div>
+          <div className="aboutSideStack">
+            <div className="aboutMiniCard">
+              <h3>Engineering Mindset</h3>
+              <p>
+                I like practical building. My focus is not only theory — I want
+                to design, test, debug, improve, and create real working
+                systems.
+              </p>
+            </div>
 
-          <div className="glass">
-            <h3>Engineering Goal</h3>
-            <p>
-              I want to become a strong practical engineer who can design,
-              build, test, and improve real systems.
-            </p>
+            <div className="aboutMiniCard">
+              <h3>Athlete Lifestyle</h3>
+              <p>
+                I have been training kickboxing since the age of 12. I run,
+                box, wrestle, and love staying physically fit. Training gives
+                me discipline, confidence, and mental toughness.
+              </p>
+            </div>
+
+            <div className="aboutMiniCard">
+              <h3>Future Goal</h3>
+              <p>
+                My future goal is simple: keep learning. I am curious about
+                everything, and I want to become the kind of engineer who can
+                build useful, creative, and powerful technology.
+              </p>
+            </div>
           </div>
         </div>
       </section>
