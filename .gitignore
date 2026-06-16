@@ -1,3 +1,9 @@
+# Raw source media in repo root (huge originals — optimized copies live in public/assets)
+/*.jpeg
+/*.jpg
+/*.mp4
+/*.stl
+
 # Logs
 logs
 *.log

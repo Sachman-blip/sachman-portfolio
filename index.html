@@ -3,11 +3,232 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sachman-portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0a0a0b" />
+    <meta
+      name="description"
+      content="Sachman Singh — engineer, national kickboxing champion, rider and builder. Relentlessly curious: why does it work like that?"
+    />
+    <meta property="og:title" content="Sachman Singh — Engineer · Fighter · Rider" />
+    <meta property="og:description" content="Stay curious. Build things. Keep moving forward." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/assets/face-road.jpg" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Preload hero image (above the fold) -->
+    <link rel="preload" as="image" href="/assets/face-road.jpg" />
+
+    <title>Sachman Singh — Engineer · Fighter · Rider</title>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <!-- Custom cursor -->
+    <div class="cur-dot" aria-hidden="true"></div>
+    <div class="cur-ring" aria-hidden="true"><span class="cur-label"></span></div>
+
+    <!-- Film grain (cinematic) -->
+    <div class="grain" aria-hidden="true"></div>
+
+    <!-- Scroll progress + live section indicator -->
+    <div class="hud" aria-hidden="true">
+      <div class="hud-index"><span id="hudNo">00</span><i>/06</i></div>
+      <div class="hud-label" id="hudLabel">INTRO</div>
+      <div class="hud-bar"><span id="hudBar"></span></div>
+    </div>
+
+    <main id="app">
+      <!-- ===================== HERO ===================== -->
+      <section class="hero" id="hero" data-hud="00 · INTRO">
+        <div class="hero-media" id="heroMedia">
+          <img src="/assets/face-road.jpg" alt="Sachman Singh" />
+        </div>
+        <div class="hero-scrim"></div>
+
+        <header class="topbar">
+          <span class="topbar-mark">SS</span>
+          <span class="topbar-loc">Jalandhar, IN</span>
+        </header>
+
+        <div class="hero-content">
+          <p class="hero-eyebrow"><span>Engineer</span><span>Fighter</span><span>Rider</span></p>
+          <h1 class="hero-name">
+            <span class="line"><span>Sachman</span></span>
+            <span class="line outline"><span>Singh</span></span>
+          </h1>
+          <p class="hero-tagline">
+            I'm obsessed with dominating every field I step into — engineering,
+            the ring, the road. I don't race anyone but the limit, and I haven't
+            found mine yet.
+          </p>
+        </div>
+
+        <div class="hero-scroll" id="heroScroll">
+          <span class="hero-scroll-word">Scroll</span>
+          <span class="hero-scroll-line"></span>
+        </div>
+      </section>
+
+      <!-- ===================== STORY ===================== -->
+      <section class="story" id="story" data-hud="01 · STORY">
+        <div class="section-grid"></div>
+        <span class="story-bgno" aria-hidden="true">01</span>
+        <div class="wrap story-wrap">
+          <div class="story-text">
+            <p class="tag">// 01 — STORY</p>
+            <h2 class="story-head">
+              <span class="line"><span>I don't</span></span>
+              <span class="line"><span>have a</span></span>
+              <span class="line accent"><span>limit.</span></span>
+            </h2>
+            <p class="story-body">
+              I'm Sachman, and I try to be the best at everything I touch — then I
+              usually end up there. Engineering, sports, whatever I decide
+              matters: I go all in until I'm above the rest. I've trained my mind
+              to the point where I genuinely don't believe I have a ceiling. The
+              only limit is the one you agree to, and I never signed up for one.
+              Hand me a problem I've never seen and I'll take it apart, learn it
+              cold, and outwork everyone in the room until it bends. Curiosity
+              gets me in the door; refusing to settle is what keeps me ahead.
+            </p>
+            <p class="story-meta">Go all in · Outwork everyone · No ceiling</p>
+          </div>
+          <figure class="story-portrait" data-cursor="view">
+            <img src="/assets/story-night.jpg" alt="Sachman on his cruiser at night" loading="lazy" />
+            <figcaption>Night ride · Jalandhar</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- ===================== DISCIPLINE ===================== -->
+      <section class="disc" id="discipline" data-hud="02 · DISCIPLINE">
+        <div class="disc-content">
+          <p class="tag">// 02 — DISCIPLINE</p>
+          <h2 class="disc-title">
+            <span class="line"><span>National</span></span>
+            <span class="line"><span>Kickboxing</span></span>
+            <span class="line accent"><span>Champion</span></span>
+          </h2>
+          <p class="disc-body">
+            Kickboxing was the first place I learned I don't have a limit unless I
+            set one. It's where the whole mindset started — show up when you don't
+            want to, stay calm when it hurts, and keep going long after everyone
+            else has quit. The national title was never really the point. The ring
+            just proved what I now carry into everything else.
+          </p>
+          <p class="disc-meta">No limit unless you set one</p>
+        </div>
+        <figure class="disc-media">
+          <img class="disc-img" src="/assets/kickboxing.jpg" alt="Sachman — training" loading="lazy" />
+        </figure>
+      </section>
+
+      <!-- ===================== THE ROAD ===================== -->
+      <section class="road" id="road" data-hud="03 · THE ROAD">
+        <div class="road-media" id="roadMedia">
+          <video
+            class="road-video"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            poster="/assets/gear-road.jpg"
+          >
+            <source src="/assets/ride-night.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div class="road-overlay"></div>
+        <div class="road-quote">
+          <span class="cine-line"><span>FREEDOM</span></span>
+          <span class="cine-line"><span>OF THE</span></span>
+          <span class="cine-line accent"><span>ROAD</span></span>
+        </div>
+        <p class="road-sub">
+          Some of my best ideas have come at night — engine running, road empty.
+        </p>
+      </section>
+
+      <!-- ===================== THE WORK (ledger) ===================== -->
+      <section class="work" id="work" data-hud="04 · THE WORK">
+        <div class="section-grid"></div>
+        <div class="wrap">
+          <div class="work-head">
+            <p class="tag">// 04 — THE WORK</p>
+            <h2 class="work-title">Things I've<br /><span class="accent">built.</span></h2>
+            <p class="work-hint">[ hover a row ]</p>
+          </div>
+          <ol class="work-list" id="workList"></ol>
+        </div>
+      </section>
+
+      <!-- ===================== 3D — interactive STL gallery ===================== -->
+      <section class="three" id="three" data-hud="05 · UNDER THE HOOD">
+        <div class="three-pin" id="threePin">
+          <canvas id="threeCanvas" data-cursor="drag"></canvas>
+          <div class="three-copy">
+            <p class="tag">// 05 — UNDER THE HOOD</p>
+            <h2>Built to<br /><span class="accent">take apart.</span></h2>
+            <p class="three-sub">
+              Real parts I've designed in CAD. Drag to spin them — scroll to turn
+              them over.
+            </p>
+            <div class="lab-models" id="labModels" aria-label="Choose a model"></div>
+            <p class="lab-name" id="labName"></p>
+          </div>
+          <span class="lab-hint">drag to rotate</span>
+        </div>
+      </section>
+
+      <!-- ===================== CONTACT ===================== -->
+      <section class="contact" id="contact" data-hud="06 · LOOKING AHEAD">
+        <div class="section-grid"></div>
+        <div class="wrap">
+          <p class="tag">// 06 — LOOKING AHEAD</p>
+          <h2 class="contact-statement">
+            <span>Stay curious.</span>
+            <span>Build things.</span>
+            <span class="accent">Keep moving forward.</span>
+          </h2>
+          <p class="contact-sub">
+            I'm always chasing the next thing to understand and the next thing to
+            build. If you've got an idea, a project, or a question worth taking
+            apart — let's talk.
+          </p>
+
+          <div class="contact-links">
+            <a class="c-link" id="linkEmail" href="mailto:sachman.singh.saund@gmail.com" data-cursor="link">
+              <span class="c-k">Email</span>
+              <span class="c-v">sachman.singh.saund@gmail.com</span>
+            </a>
+            <a
+              class="c-link"
+              id="linkInsta"
+              href="https://instagram.com/sachman.singh"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor="link"
+            >
+              <span class="c-k">Instagram</span>
+              <span class="c-v">@sachman.singh</span>
+            </a>
+          </div>
+
+          <footer class="foot">
+            <span>© 2026 Sachman Singh — Jalandhar, India</span>
+            <button class="to-top" id="toTop" type="button" data-magnetic data-cursor="top">
+              Back to top ↑
+            </button>
+          </footer>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

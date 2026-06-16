@@ -1,16 +1,60 @@
-# React + Vite
+# Sachman Singh — personal site
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An over-engineered, award-style single-page site. Vanilla **TypeScript** + **Vite**,
+**Lenis** smooth scroll, **GSAP/ScrollTrigger** animation, **Three.js** 3D section.
+No UI framework.
 
-Currently, two official plugins are available:
+## Run
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev        # local dev
+npm run typecheck  # tsc --noEmit
+npm run build      # static output -> /dist
+npm run preview    # serve the production build
+```
 
-## React Compiler
+## Deploy (Vercel)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Static build. Push to GitHub, import to Vercel — `vercel.json` already sets
+`framework: vite`, build `npm run build`, output `dist`. Add the domain in the
+Vercel dashboard.
 
-## Expanding the ESLint configuration
+## Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```
+index.html              # all section markup + cursor + preloader
+src/
+  main.ts               # boot: smooth scroll, cursor, sections, preloader, deferred 3D
+  styles/               # tokens.css (design tokens), base.css, sections.css
+  lib/                  # cursor, smoothScroll, reveal (hero centerpiece), scrollFx, three-hero
+  sections/             # preloader, hero, about, things, projects, contact
+public/assets/          # hero + section imagery
+```
+
+## Hero identities
+
+The hero cursor-reveal cycles between two riding-themed identities:
+
+- **Ride Mode** (red) — `face-ride.jpg` ↔ `helmet-ride.jpg`
+- **Road Mode** (lime) — `face-road.jpg` ↔ `gear-road.jpg`
+
+To add the **fighter** identity later: drop `face-fight.jpg` and
+`helmet-fight.jpg` into `public/assets/`, then add a third entry to the
+`IDENTITIES` array in `src/lib/reveal.ts` with `accent: '#c8ff00'`.
+
+## TODO before launch
+
+1. **Projects** — real links + screenshots in `src/sections/projects.ts`
+   (cards without a `link` show a "TODO · link" badge).
+2. **Contact** — set `email` and `instagram` in `src/sections/contact.ts`
+   (currently placeholder links flagged "TODO").
+3. **3D model** *(optional)* — drop a `model.glb` into `public/assets/`; it
+   loads automatically (centered + scaled). Without it, a procedural
+   wireframe icosahedron renders instead.
+
+## Accessibility
+
+Honors `prefers-reduced-motion`: skips the preloader animation, disables Lenis,
+jumps scroll-ins to final state, freezes the reveal auto-demo, and renders a
+static 3D frame.

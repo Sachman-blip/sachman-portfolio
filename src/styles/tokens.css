@@ -1,0 +1,29 @@
+:root {
+  /* Surfaces */
+  --bg: #0a0a0b;
+  --panel: #0f0f11;
+  --ink: #f4f4f1;
+  --mut: #76766f;
+  --line: rgba(255, 255, 255, 0.09);
+
+  /* Accent (single brand colour) */
+  --fight: #c8ff00; /* lime */
+  --ride: #ff2e2e; /* red  */
+  --acc: #c8ff00; /* acid lime — the brand accent */
+
+  /* Easing */
+  --ease-smooth: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-inout: cubic-bezier(0.76, 0, 0.24, 1);
+
+  /* Type */
+  --f-display: "Anton", "Arial Narrow", sans-serif;
+  --f-mono: "Space Mono", ui-monospace, "Courier New", monospace;
+
+  /* Spacing scale */
+  --pad-x: clamp(20px, 6vw, 120px);
+  --gap: clamp(24px, 4vw, 64px);
+
+  /* Z layers */
+  --z-cursor: 90;
+  --z-pre: 100;
+}
