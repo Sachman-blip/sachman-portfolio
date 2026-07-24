@@ -145,15 +145,20 @@ em {
   height: 40px;
   border: 1.5px solid #fff;
   opacity: 0;
-  transition: opacity 0.35s;
+  transition: opacity 0.35s, background 0.25s ease, border-color 0.25s ease, border-width 0.2s ease;
 }
 .cur-ring.down {
   border-color: var(--acc);
+  border-width: 2px;
 }
 .cur-ring.labeled {
   border-color: var(--acc);
   background: color-mix(in srgb, var(--acc) 90%, #000);
   mix-blend-mode: normal;
+}
+/* dot hides while the ring is locked onto an interactive control */
+.cur-dot.on.mini {
+  opacity: 0;
 }
 .cur-label {
   font-family: var(--f-mono);

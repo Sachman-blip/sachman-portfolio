@@ -583,21 +583,24 @@ html.bgfx body {
   background: transparent;
 }
 
-/* ------------------------------------------------------ FLOW-FIELD BG ------ */
+/* ------------------------------------------ FLOW-FIELD (GLOBAL BACKDROP) --- */
 .flow-canvas {
-  position: absolute;
+  position: fixed;
   inset: 0;
-  z-index: 0;
+  z-index: -1;
   pointer-events: none;
-  opacity: 0.9;
 }
-/* keep the contact content above its living background */
+/* Hand the page background to the living field once it mounts. */
+html.livebg {
+  background: #0a0a0b;
+}
+html.livebg body {
+  background: transparent;
+}
+/* keep the contact content above the backdrop */
 .contact > .wrap {
   position: relative;
   z-index: 2;
-}
-.contact > .section-grid {
-  z-index: 1;
 }
 
 /* --------------------------------------------------------- MATRIX RAIN ----- */

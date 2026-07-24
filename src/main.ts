@@ -33,8 +33,6 @@ import { initNav } from './lib/nav';
 import { initSectionFx } from './lib/sectionfx';
 import { initIdle } from './lib/idle';
 import { initPWA } from './lib/pwa';
-import { initBgFx } from './lib/bgfx';
-import { initTrail } from './lib/trail';
 import { initStats } from './lib/stats';
 import { initTilt } from './lib/tilt';
 import { initSignature } from './lib/signature';
@@ -87,17 +85,15 @@ function boot(): void {
   // Feature layer: command palette, sound, telemetry, easter eggs.
   safe('perf', initPerf); // adaptive quality — must precede consumers (flow-field density)
   safe('audio', initAudio);
-  safe('bgfx', initBgFx); // GLSL living backdrop (reads accent, audio level, quality)
+  safe('flowField', initFlowField); // the global living backdrop
   safe('telemetry', initTelemetry);
   safe('favicon', initFavicon);
   safe('konami', initKonami);
   safe('secrets', initSecrets);
   safe('scramble', initScramble);
-  safe('flowField', initFlowField);
   safe('terminal', initTerminal);
   safe('nav', initNav);
   safe('sectionFx', initSectionFx);
-  safe('trail', initTrail);
   safe('tilt', initTilt); // pointer 3D tilt on [data-tilt] cards (stats/radar)
   safe('idle', initIdle);
   safe('pwa', initPWA);
