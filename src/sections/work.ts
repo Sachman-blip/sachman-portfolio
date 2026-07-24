@@ -20,9 +20,7 @@ const WORK: Work[] = [
   { title: '6-DOF Robotic Arm', kind: 'Robotics · Mechatronics', cat: 'BUILD', media: { type: 'image', src: '/assets/6dof-arm.jpg' } },
   { title: 'Drone', kind: 'Flight · Controls', cat: 'AERIAL', media: { type: 'image', src: '/assets/drone.jpg' } },
   { title: 'Robotic Car', kind: 'Autonomous · STM32', cat: 'ROBOTICS', media: { type: 'video', src: '/assets/robotic-car.mp4' } },
-  { title: 'Line-Follower Robot', kind: 'STM32 · Sensor Array', cat: 'EMBEDDED' },
-  { title: 'Pure-Sine Inverter', kind: 'STM32 · Power', cat: 'EMBEDDED' },
-  { title: 'Servo Stabilizer', kind: 'dsPIC · Control', cat: 'EMBEDDED' },
+  { title: 'Sesame Robot', kind: 'Robotics · Mechatronics', cat: 'BUILD', media: { type: 'image', src: '/assets/sesame-robot.jpg' } },
 ];
 
 function buildMedia(m: Media, title: string): HTMLElement {
