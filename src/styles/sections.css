@@ -906,32 +906,6 @@
   color: #c9c9c2;
   font-size: clamp(15px, 1.7vw, 19px);
 }
-.disc-medals {
-  margin-top: clamp(24px, 4vh, 40px);
-  max-width: 340px;
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-.disc-medals img {
-  display: block;
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-}
-.disc-medals figcaption {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  padding: 8px 12px;
-  font-family: var(--f-mono);
-  font-size: 10px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--ink);
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.72), transparent);
-  width: 100%;
-}
 .disc-meta {
   margin-top: clamp(20px, 3vh, 32px);
   font-family: var(--f-mono);
