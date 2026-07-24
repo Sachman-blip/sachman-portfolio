@@ -1,6 +1,9 @@
 import * as THREE from 'three';
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -73,6 +76,29 @@ export function initThree(): void {
   const rim = new THREE.DirectionalLight(accentColor(), 3);
   rim.position.set(-6, -3, -4);
   scene.add(rim);
+
+  // Bloom post-processing for a cinematic glow on the accent rim + bright metal
+  // highlights. Guarded: if the composer fails to build we fall back to a plain
+  // renderer.render() below.
+  let composer: EffectComposer | null = null;
+  try {
+    composer = new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene, camera));
+    composer.addPass(new UnrealBloomPass(new THREE.Vector2(1, 1), 0.55, 0.5, 0.82));
+  } catch {
+    composer = null;
+  }
+  const renderFrame = () => {
+    if (composer) {
+      try {
+        composer.render();
+        return;
+      } catch {
+        composer = null; // fall through to plain render for the rest of the session
+      }
+    }
+    renderer.render(scene, camera);
+  };
 
   // group holds the current object; we rotate the group.
   const group = new THREE.Group();
@@ -187,6 +213,7 @@ export function initThree(): void {
     const w = canvas.clientWidth || 1;
     const h = canvas.clientHeight || 1;
     renderer.setSize(w, h, false);
+    composer?.setSize(w, h);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
   };
@@ -261,12 +288,12 @@ export function initThree(): void {
 
     group.rotation.y = spin + scrollRot.y;
     group.rotation.x = tiltX + Math.sin(scrollRot.y * 0.5) * 0.2;
-    renderer.render(scene, camera);
+    renderFrame();
   };
   loop();
 
   if (reduce) {
     cancelAnimationFrame(raf);
-    setTimeout(() => renderer.render(scene, camera), 80);
+    setTimeout(renderFrame, 80);
   }
 }

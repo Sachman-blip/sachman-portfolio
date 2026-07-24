@@ -51,7 +51,7 @@
 
     <!-- Scroll progress + live section indicator -->
     <div class="hud" aria-hidden="true">
-      <div class="hud-index"><span id="hudNo">00</span><i>/06</i></div>
+      <div class="hud-index"><span id="hudNo">00</span><i>/07</i></div>
       <div class="hud-label" id="hudLabel">INTRO</div>
       <div class="hud-bar"><span id="hudBar"></span></div>
     </div>
@@ -181,6 +181,19 @@
         </div>
       </section>
 
+      <!-- ============= CAPABILITIES MARQUEE (cinematic band) ============= -->
+      <section class="capband" aria-label="Capabilities">
+        <div class="cap-track" id="capTrack">
+          <span>ENGINEERING</span><span class="cap-dot">✦</span>
+          <span>KICKBOXING</span><span class="cap-dot">✦</span>
+          <span>ROBOTICS</span><span class="cap-dot">✦</span>
+          <span>CAD</span><span class="cap-dot">✦</span>
+          <span>EMBEDDED</span><span class="cap-dot">✦</span>
+          <span>CONTROLS</span><span class="cap-dot">✦</span>
+          <span>RIDING</span><span class="cap-dot">✦</span>
+        </div>
+      </section>
+
       <!-- ===================== 3D — interactive STL gallery ===================== -->
       <section class="three" id="three" data-hud="05 · UNDER THE HOOD">
         <div class="three-pin" id="threePin">
@@ -199,8 +212,22 @@
         </div>
       </section>
 
+      <!-- ===================== BY THE NUMBERS (living data) ===================== -->
+      <section class="stats" id="stats" data-hud="06 · BY THE NUMBERS">
+        <div class="section-grid"></div>
+        <div class="wrap">
+          <p class="tag">// 06 — BY THE NUMBERS</p>
+          <h2 class="stats-title">Signal,<br /><span class="accent">not noise.</span></h2>
+          <div class="stat-row" id="statRow"></div>
+          <div class="stats-lower">
+            <div class="radar" id="radar" aria-hidden="true"></div>
+            <ol class="timeline" id="timeline"></ol>
+          </div>
+        </div>
+      </section>
+
       <!-- ===================== CONTACT ===================== -->
-      <section class="contact" id="contact" data-hud="06 · LOOKING AHEAD">
+      <section class="contact" id="contact" data-hud="07 · LOOKING AHEAD">
         <div class="section-grid"></div>
         <div class="wrap">
           <p class="tag">// 06 — LOOKING AHEAD</p>

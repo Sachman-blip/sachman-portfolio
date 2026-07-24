@@ -33,6 +33,10 @@ import { initNav } from './lib/nav';
 import { initSectionFx } from './lib/sectionfx';
 import { initIdle } from './lib/idle';
 import { initPWA } from './lib/pwa';
+import { initBgFx } from './lib/bgfx';
+import { initTrail } from './lib/trail';
+import { initStats } from './lib/stats';
+import { marquee } from './lib/scrollFx';
 
 // Flag for CSS that should only apply once JS is driving animations.
 document.documentElement.classList.add('js-anim');
@@ -51,8 +55,13 @@ function boot(): void {
   initDiscipline();
   initRoad();
   initWork();
+  initStats();
   initContact();
   deferThree();
+
+  // Cinematic capabilities marquee (velocity-aware, reuses scrollFx).
+  const capTrack = document.getElementById('capTrack');
+  if (capTrack) marquee(capTrack, 0.6);
 
   // Interaction polish across the now-built DOM.
   initMagnetic();
@@ -61,6 +70,7 @@ function boot(): void {
   // Feature layer: command palette, sound, telemetry, easter eggs.
   initPerf(); // adaptive quality — must precede consumers (flow-field density)
   initAudio();
+  initBgFx(); // GLSL living backdrop (reads accent, audio level, quality)
   initTelemetry();
   initFavicon();
   initKonami();
@@ -70,6 +80,7 @@ function boot(): void {
   initTerminal();
   initNav();
   initSectionFx();
+  initTrail();
   initIdle();
   initPWA();
   initPalette();
