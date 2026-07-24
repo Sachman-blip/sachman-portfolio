@@ -63,15 +63,15 @@ void main(){
   vec2 velUV = vec2(vel.x / u_aspect, vel.y);
   vec3 dye = texture2D(u_dye, uv - velUV * u_dt).rgb * u_dissipation;
 
-  // pointer injects ink
-  float inject = pd * (0.16 + u_down * 0.5 + u_audio * 0.4);
+  // pointer injects ink (kept modest so text stays readable)
+  float inject = pd * (0.10 + u_down * 0.35 + u_audio * 0.28);
   dye += u_accent * inject;
 
   // structured ambient seed — sparse drifting filaments so the field is alive
-  // and flowing even before the cursor touches it (uniform seed would look flat)
+  // and flowing even before the cursor touches it (dim, so it reads as texture)
   float seed = fbm(p * 4.2 - vec2(u_time * 0.03, u_time * 0.015));
-  seed = smoothstep(0.6, 0.92, seed);
-  dye += u_accent * seed * 0.02;
+  seed = smoothstep(0.66, 0.95, seed);
+  dye += u_accent * seed * 0.005;
 
   gl_FragColor = vec4(dye, 1.0);
 }
@@ -84,9 +84,10 @@ uniform sampler2D u_dye;
 void main(){
   vec3 dye = texture2D(u_dye, v_uv).rgb;
   vec3 base = vec3(0.039, 0.039, 0.043);
-  vec3 col = base + dye;
+  // dim the dye so it's a quiet backdrop that text reads cleanly over
+  vec3 col = base + dye * 0.5;
   vec2 q = v_uv - 0.5;
-  col *= 1.0 - 0.34 * dot(q, q);
+  col *= 1.0 - 0.42 * dot(q, q);
   gl_FragColor = vec4(col, 1.0);
 }
 `;
@@ -276,7 +277,7 @@ export function initFluid(): boolean {
     gl.uniform1f(su.audio, audio);
     gl.uniform3f(su.accent, accent[0], accent[1], accent[2]);
     gl.uniform1f(su.aspect, innerWidth / innerHeight);
-    gl.uniform1f(su.dissipation, 0.984);
+    gl.uniform1f(su.dissipation, 0.972);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
 
     // --- display pass: read T.b, write screen ---
