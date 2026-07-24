@@ -10,6 +10,7 @@
 
 import { on } from './bus';
 import { getQuality } from './perf';
+import { getBars } from './audio';
 
 type P = { x: number; y: number; spark: boolean };
 
@@ -91,13 +92,39 @@ export function initFlowField(): void {
     { passive: true }
   );
 
+  // click shockwaves — an expanding ring that shoves the field outward
+  type Ripple = { x: number; y: number; r: number; life: number };
+  const ripples: Ripple[] = [];
+  addEventListener('pointerdown', (e) => {
+    if (ripples.length < 6) ripples.push({ x: e.clientX, y: e.clientY, r: 0, life: 1 });
+  });
+
   const R = 190; // cursor influence radius
   const R2 = R * R;
   let t = 0;
+  let lastScroll = scrollY;
+  let scrollBoost = 0;
 
   const advance = () => {
     if (W === 0) return;
-    t += 0.0015;
+
+    // scroll velocity → the field surges while you scroll
+    const ds = Math.abs(scrollY - lastScroll);
+    lastScroll = scrollY;
+    scrollBoost += (Math.min(ds, 70) - scrollBoost) * 0.12;
+
+    // audio level → the field breathes with the sound design (when enabled)
+    const audio = getBars(3).reduce((a, b) => a + b, 0) / 3;
+
+    t += 0.0015 + scrollBoost * 0.0002;
+    const speedMul = 1 + scrollBoost * 0.02 + audio * 0.5;
+
+    // advance ripples
+    for (let i = ripples.length - 1; i >= 0; i--) {
+      ripples[i].r += 7;
+      ripples[i].life -= 0.018;
+      if (ripples[i].life <= 0) ripples.splice(i, 1);
+    }
 
     // long, elegant trails (low-alpha dark wash over the previous frame)
     ctx.globalCompositeOperation = 'source-over';
@@ -107,19 +134,20 @@ export function initFlowField(): void {
     // additive layer for glow
     ctx.globalCompositeOperation = 'lighter';
 
-    // soft accent halo around the cursor
+    // soft accent halo around the cursor, pulsing with audio
     if (mouse.x > -9000) {
-      const g = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, R);
-      g.addColorStop(0, hexA(accent, 0.05));
+      const halo = R * (1 + audio * 0.5);
+      const g = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, halo);
+      g.addColorStop(0, hexA(accent, 0.05 + audio * 0.06));
       g.addColorStop(1, hexA(accent, 0));
       ctx.fillStyle = g;
-      ctx.fillRect(mouse.x - R, mouse.y - R, R * 2, R * 2);
+      ctx.fillRect(mouse.x - halo, mouse.y - halo, halo * 2, halo * 2);
     }
 
     // accent trails in one batched path
     ctx.strokeStyle = accent;
     ctx.lineWidth = 1;
-    ctx.globalAlpha = 0.12;
+    ctx.globalAlpha = 0.12 + audio * 0.08;
     ctx.beginPath();
     const sparks: [number, number][] = [];
     for (const p of particles) {
@@ -138,7 +166,20 @@ export function initFlowField(): void {
         vy += (dy / d) * f * 1.4 + (dx / d) * f * 2.6;
       }
 
-      const spd = p.spark ? 1.8 : 1.1;
+      // click shockwaves shove particles along the expanding ring
+      for (const rip of ripples) {
+        const rdx = p.x - rip.x;
+        const rdy = p.y - rip.y;
+        const rd = Math.hypot(rdx, rdy) + 0.001;
+        const band = rd - rip.r;
+        if (Math.abs(band) < 55) {
+          const push = (1 - Math.abs(band) / 55) * rip.life * 3.4;
+          vx += (rdx / rd) * push;
+          vy += (rdy / rd) * push;
+        }
+      }
+
+      const spd = (p.spark ? 1.8 : 1.1) * speedMul;
       const nx = p.x + vx * spd;
       const ny = p.y + vy * spd;
 
@@ -157,6 +198,15 @@ export function initFlowField(): void {
       }
     }
     ctx.stroke();
+
+    // faint expanding ring for each shockwave
+    for (const rip of ripples) {
+      ctx.strokeStyle = hexA(accent, rip.life * 0.16);
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.arc(rip.x, rip.y, rip.r, 0, Math.PI * 2);
+      ctx.stroke();
+    }
 
     // brighter depth sparks
     ctx.globalAlpha = 0.9;
