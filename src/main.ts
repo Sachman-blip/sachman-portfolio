@@ -24,6 +24,11 @@ import { initFavicon } from './lib/favicon';
 import { initKonami } from './lib/konami';
 import { initPalette } from './lib/palette';
 import { initDock } from './lib/dock';
+import { initPerf } from './lib/perf';
+import { initScramble } from './lib/scramble';
+import { initSecrets } from './lib/secrets';
+import { initFlowField } from './lib/flowfield';
+import { initTerminal } from './lib/terminal';
 
 // Flag for CSS that should only apply once JS is driving animations.
 document.documentElement.classList.add('js-anim');
@@ -50,10 +55,15 @@ function boot(): void {
   initHud();
 
   // Feature layer: command palette, sound, telemetry, easter eggs.
+  initPerf(); // adaptive quality — must precede consumers (flow-field density)
   initAudio();
   initTelemetry();
   initFavicon();
   initKonami();
+  initSecrets();
+  initScramble();
+  initFlowField();
+  initTerminal();
   initPalette();
   initDock();
 

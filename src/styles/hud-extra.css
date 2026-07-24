@@ -562,3 +562,190 @@ html.overdrive .accent {
     animation: none;
   }
 }
+
+/* ------------------------------------------------------ FLOW-FIELD BG ------ */
+.flow-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.9;
+}
+/* keep the contact content above its living background */
+.contact > .wrap {
+  position: relative;
+  z-index: 2;
+}
+.contact > .section-grid {
+  z-index: 1;
+}
+
+/* --------------------------------------------------------- MATRIX RAIN ----- */
+.matrix-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 240;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.matrix-canvas.on {
+  opacity: 1;
+}
+
+/* --------------------------------------------------------- LOW-FX MODE ----- */
+/* Adaptive-quality guardian trims the priciest effects when FPS drops. */
+html.lowfx .grain {
+  display: none;
+}
+html.lowfx .flow-canvas {
+  opacity: 0.55;
+}
+html.lowfx .cmdk-backdrop,
+html.lowfx .tele,
+html.lowfx .dock-btn,
+html.lowfx .toast {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* ------------------------------------------------------------ TERMINAL ----- */
+.term {
+  position: fixed;
+  inset: 0;
+  z-index: 220;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
+}
+.term.on {
+  opacity: 1;
+  pointer-events: auto;
+}
+.term-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 6, 7, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+.term-win {
+  position: relative;
+  width: min(760px, 92vw);
+  height: min(70vh, 560px);
+  display: flex;
+  flex-direction: column;
+  background: rgba(9, 9, 11, 0.96);
+  border: 1px solid var(--line);
+  box-shadow: 0 50px 130px -30px #000;
+  transform: translateY(10px) scale(0.99);
+  opacity: 0;
+  transition: transform 0.26s var(--ease-smooth), opacity 0.26s ease;
+}
+.term.on .term-win {
+  transform: none;
+  opacity: 1;
+}
+.term-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--line);
+  background: #0f0f11;
+}
+.term-dots {
+  display: inline-flex;
+  gap: 6px;
+}
+.term-dots i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #2a2a2e;
+}
+.term-dots i:first-child {
+  background: var(--acc);
+}
+.term-title {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--mut);
+}
+.term-x {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: var(--mut);
+  font-size: 13px;
+  cursor: none;
+  transition: color 0.2s ease;
+}
+.term-x:hover {
+  color: var(--ink);
+}
+.term-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 16px;
+  font-family: var(--f-mono);
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #c9c9c2;
+  scrollbar-width: thin;
+}
+.term-out {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.term-banner {
+  color: var(--acc);
+  line-height: 1.15;
+  white-space: pre;
+}
+.term-accent,
+.term-cmdname {
+  color: var(--acc);
+}
+.term-cmdname {
+  white-space: pre;
+}
+.term-dir {
+  color: color-mix(in srgb, var(--acc) 80%, #fff);
+}
+.term-err {
+  color: #ff5a5a;
+}
+.term-echo .term-ps1 {
+  margin-right: 6px;
+}
+.term-ps1 {
+  color: var(--acc);
+}
+.term-input-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-top: 1px solid var(--line);
+}
+.term-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--ink);
+  font-family: var(--f-mono);
+  font-size: 12.5px;
+  caret-color: var(--acc);
+}
+
+@media (max-width: 720px) {
+  .term-win {
+    height: 76vh;
+    width: 94vw;
+  }
+}

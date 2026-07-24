@@ -4,6 +4,7 @@
 
 import { emit, isTyping, on as busOn } from './bus';
 import { currentAccent } from './theme';
+import { getQuality } from './perf';
 
 type Row = { k: string; el: HTMLElement };
 
@@ -32,6 +33,7 @@ export function initTelemetry(): void {
     ['cursor', 'CURSOR'],
     ['view', 'VIEWPORT'],
     ['dpr', 'DPR'],
+    ['quality', 'QUALITY'],
     ['accent', 'ACCENT'],
   ];
 
@@ -131,6 +133,7 @@ export function initTelemetry(): void {
     set('cursor', `${px} , ${py}`);
     set('view', `${innerWidth}×${innerHeight}`);
     set('dpr', devicePixelRatio.toFixed(2));
+    set('quality', getQuality());
     set('accent', currentAccent().name);
   };
   if (!reduce) requestAnimationFrame(loop);

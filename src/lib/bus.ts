@@ -7,6 +7,7 @@ export type BusEvent =
   | 'ss:sound' // detail: { on: boolean }
   | 'ss:overdrive' // detail: { on: boolean }
   | 'ss:telemetry' // detail: { on: boolean }
+  | 'ss:quality' // detail: { quality: 'HIGH' | 'LOW' }
   | 'ss:booted'; // detail: undefined
 
 export function emit<T = unknown>(type: BusEvent, detail?: T): void {

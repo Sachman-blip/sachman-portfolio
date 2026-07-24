@@ -9,6 +9,7 @@ import { cycleAccent, setAccent, ACCENTS } from './theme';
 import { toggleSound, isSoundOn } from './audio';
 import { toggleTelemetry } from './telemetry';
 import { toggleOverdrive, isOverdrive } from './konami';
+import { triggerMatrix } from './secrets';
 
 type Cmd = {
   id: string;
@@ -88,6 +89,28 @@ function buildCommands(close: () => void): Cmd[] {
       keywords: 'konami secret rave boost',
       live: () => (isOverdrive() ? 'ON' : 'OFF'),
       run: () => toggleOverdrive(),
+    },
+    {
+      id: 'terminal',
+      label: 'Open terminal',
+      hint: '`',
+      group: 'SYSTEM',
+      keywords: 'shell console command line cli',
+      run: () => {
+        close();
+        (window as unknown as { __ssTerminal?: () => void }).__ssTerminal?.();
+      },
+    },
+    {
+      id: 'matrix',
+      label: 'Enter the matrix',
+      hint: '⛆',
+      group: 'SYSTEM',
+      keywords: 'rain easter egg secret neo',
+      run: () => {
+        close();
+        triggerMatrix();
+      },
     },
     {
       id: 'top',
