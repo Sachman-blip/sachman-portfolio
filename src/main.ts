@@ -1,6 +1,7 @@
 import './styles/tokens.css';
 import './styles/base.css';
 import './styles/sections.css';
+import './styles/hud-extra.css';
 
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { initCursor } from './lib/cursor';
@@ -14,10 +15,24 @@ import { initRoad } from './sections/road';
 import { initWork } from './sections/work';
 import { initContact } from './sections/contact';
 
+// Over-engineered feature layer
+import { initTheme } from './lib/theme';
+import { initBoot } from './lib/boot';
+import { initAudio } from './lib/audio';
+import { initTelemetry } from './lib/telemetry';
+import { initFavicon } from './lib/favicon';
+import { initKonami } from './lib/konami';
+import { initPalette } from './lib/palette';
+import { initDock } from './lib/dock';
+
 // Flag for CSS that should only apply once JS is driving animations.
 document.documentElement.classList.add('js-anim');
 
 function boot(): void {
+  // Theme first: everything downstream (favicon, WebGL rim light) reads --acc.
+  initTheme();
+  initBoot();
+
   initSmoothScroll();
   initCursor();
 
@@ -33,6 +48,14 @@ function boot(): void {
   // Interaction polish across the now-built DOM.
   initMagnetic();
   initHud();
+
+  // Feature layer: command palette, sound, telemetry, easter eggs.
+  initAudio();
+  initTelemetry();
+  initFavicon();
+  initKonami();
+  initPalette();
+  initDock();
 
   // Layout is now fully built — recompute trigger positions.
   ScrollTrigger.refresh();

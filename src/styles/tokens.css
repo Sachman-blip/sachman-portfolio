@@ -23,7 +23,9 @@
   --pad-x: clamp(20px, 6vw, 120px);
   --gap: clamp(24px, 4vw, 64px);
 
-  /* Z layers */
-  --z-cursor: 90;
+  /* Z layers — cursor rides above the feature-layer overlays (dock, telemetry,
+     command palette) so the branded cursor stays visible everywhere but the
+     boot curtain. */
+  --z-cursor: 250;
   --z-pre: 100;
 }

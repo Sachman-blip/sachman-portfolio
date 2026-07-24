@@ -28,6 +28,16 @@
     <title>Sachman Singh — Engineer · Fighter · Rider</title>
   </head>
   <body>
+    <!-- Boot sequence (paints before JS; driven + removed by boot.ts) -->
+    <div class="boot" id="boot" aria-hidden="true">
+      <div class="boot-inner">
+        <div class="boot-mark">SS</div>
+        <div class="boot-log" id="bootLog"></div>
+        <div class="boot-bar"><span id="bootBar"></span></div>
+        <div class="boot-pct"><span id="bootPct">0</span>%</div>
+      </div>
+    </div>
+
     <!-- Custom cursor -->
     <div class="cur-dot" aria-hidden="true"></div>
     <div class="cur-ring" aria-hidden="true"><span class="cur-label"></span></div>

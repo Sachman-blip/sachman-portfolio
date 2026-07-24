@@ -1,0 +1,564 @@
+/* =========================================================================
+   OVER-ENGINEERED FEATURE LAYER
+   Boot sequence · command palette · telemetry HUD · controls dock ·
+   overdrive mode · toasts. All in the site's mono/technical HUD language.
+   ========================================================================= */
+
+/* ----------------------------------------------------------------- BOOT --- */
+.boot {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: var(--bg);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  transition: opacity 0.6s var(--ease-smooth), clip-path 0.7s var(--ease-inout);
+  clip-path: inset(0 0 0 0);
+}
+.boot::before {
+  /* faint technical grid */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(circle at 50% 45%, #000 0%, transparent 72%);
+  opacity: 0.6;
+}
+.boot.done {
+  opacity: 0;
+  clip-path: inset(0 0 100% 0);
+  pointer-events: none;
+}
+.boot-inner {
+  position: relative;
+  width: min(520px, 82vw);
+  text-align: left;
+}
+.boot-mark {
+  font-family: var(--f-display);
+  font-size: clamp(72px, 16vw, 160px);
+  line-height: 0.82;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  position: relative;
+}
+.boot-mark::after {
+  content: "";
+  position: absolute;
+  left: 0.06em;
+  bottom: 0.06em;
+  width: 0.42em;
+  height: 8px;
+  background: var(--acc);
+  box-shadow: 0 0 24px var(--acc);
+  animation: bootBlink 1s steps(2) infinite;
+}
+@keyframes bootBlink {
+  50% {
+    opacity: 0.25;
+  }
+}
+.boot-log {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 22px 0 18px;
+  min-height: 132px;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mut);
+}
+.boot-log span {
+  animation: bootLine 0.4s var(--ease-smooth) both;
+}
+.boot-log span:last-child {
+  color: var(--acc);
+}
+@keyframes bootLine {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+}
+.boot-bar {
+  height: 2px;
+  width: 100%;
+  background: var(--line);
+  overflow: hidden;
+}
+.boot-bar span {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: var(--acc);
+  transform: scaleX(0);
+  transform-origin: left;
+  box-shadow: 0 0 16px var(--acc);
+}
+.boot-pct {
+  margin-top: 10px;
+  font-family: var(--f-mono);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: var(--ink);
+}
+.boot-pct span {
+  color: var(--acc);
+}
+/* keep the page from scrolling under the boot curtain */
+html.booting {
+  overflow: hidden;
+}
+
+/* -------------------------------------------------------------- PALETTE --- */
+.cmdk {
+  position: fixed;
+  inset: 0;
+  z-index: 210;
+  display: grid;
+  place-items: start center;
+  padding-top: min(16vh, 140px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.cmdk.on {
+  opacity: 1;
+  pointer-events: auto;
+}
+.cmdk-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 6, 7, 0.62);
+  backdrop-filter: blur(6px) saturate(0.9);
+  -webkit-backdrop-filter: blur(6px) saturate(0.9);
+}
+.cmdk-panel {
+  position: relative;
+  width: min(620px, 92vw);
+  background: linear-gradient(180deg, #121216, var(--panel));
+  border: 1px solid var(--line);
+  box-shadow: 0 40px 120px -30px #000, 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+  transform: translateY(-10px) scale(0.985);
+  opacity: 0;
+  transition: transform 0.24s var(--ease-smooth), opacity 0.24s ease;
+}
+.cmdk.on .cmdk-panel {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+.cmdk-search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--line);
+}
+.cmdk-prompt {
+  font-family: var(--f-mono);
+  font-size: 14px;
+  color: var(--acc);
+}
+.cmdk-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--ink);
+  font-family: var(--f-mono);
+  font-size: 15px;
+  letter-spacing: 0.02em;
+}
+.cmdk-input::placeholder {
+  color: var(--mut);
+}
+.cmdk-esc {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--mut);
+  border: 1px solid var(--line);
+  padding: 3px 6px;
+}
+.cmdk-list {
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+  max-height: min(52vh, 440px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+.cmdk-group {
+  padding: 12px 12px 6px;
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--mut);
+}
+.cmdk-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 12px;
+  cursor: pointer;
+  position: relative;
+  border-radius: 2px;
+}
+.cmdk-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: var(--acc);
+  transform: scaleY(0);
+  transition: transform 0.18s var(--ease-smooth);
+}
+.cmdk-item.active {
+  background: rgba(255, 255, 255, 0.04);
+}
+.cmdk-item.active::before {
+  transform: scaleY(1);
+}
+.cmdk-label {
+  flex: 1;
+  font-size: 14px;
+  color: var(--ink);
+}
+.cmdk-live {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--acc);
+  border: 1px solid color-mix(in srgb, var(--acc) 40%, transparent);
+  padding: 2px 6px;
+}
+.cmdk-hint {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--mut);
+  min-width: 26px;
+  text-align: right;
+}
+.cmdk-foot {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  padding: 10px 16px;
+  border-top: 1px solid var(--line);
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--mut);
+}
+.cmdk-foot span:last-child {
+  margin-left: auto;
+  color: color-mix(in srgb, var(--acc) 70%, var(--mut));
+}
+.cmdk kbd {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  border: 1px solid var(--line);
+  padding: 1px 4px;
+  margin: 0 1px;
+  color: inherit;
+}
+
+/* ------------------------------------------------------------ TELEMETRY --- */
+.tele {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 120;
+  width: 226px;
+  background: rgba(12, 12, 14, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--line);
+  padding: 10px 12px 12px;
+  font-family: var(--f-mono);
+  opacity: 0;
+  transform: translateX(-12px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s var(--ease-smooth);
+}
+.tele.on {
+  opacity: 1;
+  transform: none;
+}
+.tele-head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--mut);
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+.tele-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--acc);
+  box-shadow: 0 0 8px var(--acc);
+  animation: telePulse 1.4s ease-in-out infinite;
+}
+@keyframes telePulse {
+  50% {
+    opacity: 0.3;
+  }
+}
+.tele-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 10px;
+  font-size: 10px;
+}
+.tele-k {
+  color: var(--mut);
+  letter-spacing: 0.12em;
+}
+.tele-v {
+  color: var(--ink);
+  text-align: right;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ----------------------------------------------------------------- DOCK --- */
+.dock {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 110;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+.dock-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(12, 12, 14, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--line);
+  color: var(--mut);
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 8px 10px;
+  cursor: none;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+.dock-btn:hover {
+  color: var(--ink);
+  border-color: color-mix(in srgb, var(--acc) 55%, var(--line));
+}
+.dock-btn kbd {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  border: 1px solid var(--line);
+  padding: 1px 5px;
+  color: var(--ink);
+}
+.dock-sound.on {
+  color: var(--ink);
+  border-color: color-mix(in srgb, var(--acc) 55%, var(--line));
+}
+.dock-eq {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+}
+.dock-eq i {
+  width: 2px;
+  height: 4px;
+  background: var(--mut);
+  transition: background 0.2s ease;
+}
+.dock-sound.on .dock-eq i {
+  background: var(--acc);
+  animation: eq 0.9s ease-in-out infinite;
+}
+.dock-sound.on .dock-eq i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.dock-sound.on .dock-eq i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.dock-sound.on .dock-eq i:nth-child(4) {
+  animation-delay: 0.45s;
+}
+@keyframes eq {
+  0%,
+  100% {
+    height: 3px;
+  }
+  50% {
+    height: 12px;
+  }
+}
+
+/* ---------------------------------------------------------------- TOAST --- */
+.toast,
+.od-banner {
+  position: fixed;
+  z-index: 130;
+  font-family: var(--f-mono);
+  pointer-events: none;
+}
+.toast {
+  right: 16px;
+  bottom: 18px;
+  max-width: 300px;
+  background: rgba(12, 12, 14, 0.86);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--acc);
+  padding: 12px 14px;
+  font-size: 11px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s var(--ease-smooth);
+}
+.toast.on {
+  opacity: 1;
+  transform: none;
+}
+.toast kbd {
+  border: 1px solid var(--line);
+  padding: 1px 4px;
+  color: var(--acc);
+}
+
+/* ------------------------------------------------------------ OVERDRIVE --- */
+.od-banner {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  font-family: var(--f-display);
+  font-size: clamp(34px, 8vw, 92px);
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  -webkit-text-stroke: 2px var(--acc);
+  text-shadow: 0 0 40px color-mix(in srgb, var(--acc) 60%, transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.5s var(--ease-inout);
+  mix-blend-mode: difference;
+}
+.od-banner.on {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+html.overdrive body {
+  animation: odShake 6s ease-in-out infinite;
+}
+html.overdrive .grain {
+  opacity: 0.6 !important;
+  mix-blend-mode: color-dodge;
+}
+html.overdrive::after {
+  /* scanline sweep */
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0,
+    transparent 2px,
+    rgba(255, 255, 255, 0.028) 3px
+  );
+  animation: odScan 8s linear infinite;
+}
+html.overdrive .accent > span,
+html.overdrive .accent {
+  text-shadow: 0 0 24px color-mix(in srgb, var(--acc) 70%, transparent);
+}
+@keyframes odScan {
+  from {
+    background-position-y: 0;
+  }
+  to {
+    background-position-y: 120px;
+  }
+}
+@keyframes odShake {
+  0%,
+  92%,
+  100% {
+    transform: translate(0, 0);
+  }
+  94% {
+    transform: translate(-1px, 1px);
+  }
+  96% {
+    transform: translate(1px, -1px);
+  }
+  98% {
+    transform: translate(-1px, 0);
+  }
+}
+
+/* --------------------------------------------------------- RESPONSIVE ----- */
+@media (max-width: 720px) {
+  .tele {
+    display: none;
+  }
+  .dock {
+    left: 12px;
+    bottom: 12px;
+  }
+  .dock-cmd span,
+  .dock-sound span {
+    display: none;
+  }
+  .cmdk {
+    padding-top: 10vh;
+  }
+}
+
+/* Fine pointers only: the dock/tele are desktop-power-user surfaces. On touch
+   the native cursor is used, so restore a pointer on the dock buttons. */
+@media (hover: none), (pointer: coarse) {
+  .dock-btn {
+    cursor: pointer;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boot,
+  .cmdk,
+  .cmdk-panel,
+  .toast,
+  .tele {
+    transition: opacity 0.2s ease;
+  }
+  .boot-mark::after,
+  .tele-dot,
+  .dock-sound.on .dock-eq i,
+  html.overdrive body,
+  html.overdrive::after {
+    animation: none;
+  }
+}
