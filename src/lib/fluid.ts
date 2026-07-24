@@ -168,8 +168,10 @@ export function initFluid(): boolean {
     return { tex, fbo };
   };
 
+  const coarse = matchMedia('(pointer: coarse)').matches;
   const computeSize = () => {
-    const scale = getQuality() === 'LOW' ? 0.34 : 0.5;
+    // lighter simulation grid on phones/tablets and under the perf guardian
+    const scale = getQuality() === 'LOW' ? 0.3 : coarse ? 0.4 : 0.5;
     simW = Math.max(2, Math.floor(innerWidth * scale));
     simH = Math.max(2, Math.floor(innerHeight * scale));
   };
@@ -191,7 +193,7 @@ export function initFluid(): boolean {
   document.documentElement.classList.add('livebg');
 
   const resizeCanvas = () => {
-    const dpr = Math.min(devicePixelRatio, 2);
+    const dpr = Math.min(devicePixelRatio, coarse ? 1.5 : 2);
     canvas.width = Math.floor(innerWidth * dpr);
     canvas.height = Math.floor(innerHeight * dpr);
   };

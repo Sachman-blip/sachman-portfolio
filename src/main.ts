@@ -61,6 +61,9 @@ function boot(): void {
   // Theme first: everything downstream (favicon, WebGL rim light) reads --acc.
   safe('theme', initTheme);
   safe('boot', initBoot);
+  // Failsafe: some UI (dock/minimap) reveals on html.booted — guarantee it flips
+  // even if the boot module ever fails, so nothing stays hidden.
+  window.setTimeout(() => document.documentElement.classList.add('booted'), 4000);
 
   safe('smoothScroll', initSmoothScroll);
   safe('cursor', initCursor);
