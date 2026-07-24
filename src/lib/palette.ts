@@ -10,6 +10,7 @@ import { toggleSound, isSoundOn } from './audio';
 import { toggleTelemetry } from './telemetry';
 import { toggleOverdrive, isOverdrive } from './konami';
 import { triggerMatrix } from './secrets';
+import { promptInstall } from './pwa';
 
 type Cmd = {
   id: string;
@@ -148,6 +149,24 @@ function buildCommands(close: () => void): Cmd[] {
       group: 'CONTACT',
       keywords: 'code github repo',
       run: () => window.open('https://github.com/Sachman-blip/sachman-portfolio', '_blank', 'noopener'),
+    },
+    {
+      id: 'install',
+      label: 'Install as app',
+      hint: '⤓',
+      group: 'SYSTEM',
+      keywords: 'pwa install offline home screen',
+      run: () => {
+        if (!promptInstall()) {
+          const t = document.createElement('div');
+          t.className = 'toast';
+          t.innerHTML = 'Install unavailable — already installed, or your browser handles it from the address bar.';
+          document.body.appendChild(t);
+          requestAnimationFrame(() => t.classList.add('on'));
+          window.setTimeout(() => t.classList.remove('on'), 4200);
+          window.setTimeout(() => t.remove(), 4800);
+        }
+      },
     },
   ];
 

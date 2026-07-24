@@ -392,25 +392,8 @@ html.booting {
 }
 .dock-sound.on .dock-eq i {
   background: var(--acc);
-  animation: eq 0.9s ease-in-out infinite;
-}
-.dock-sound.on .dock-eq i:nth-child(2) {
-  animation-delay: 0.15s;
-}
-.dock-sound.on .dock-eq i:nth-child(3) {
-  animation-delay: 0.3s;
-}
-.dock-sound.on .dock-eq i:nth-child(4) {
-  animation-delay: 0.45s;
-}
-@keyframes eq {
-  0%,
-  100% {
-    height: 3px;
-  }
-  50% {
-    height: 12px;
-  }
+  /* height is driven live by the audio analyser (dock.ts) */
+  transition: height 0.08s linear;
 }
 
 /* ---------------------------------------------------------------- TOAST --- */
@@ -747,5 +730,150 @@ html.lowfx .toast {
   .term-win {
     height: 76vh;
     width: 94vw;
+  }
+}
+
+/* ------------------------------------------------------- SECTION MINIMAP --- */
+.minimap {
+  position: fixed;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 108;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: flex-end;
+}
+.mm-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: none;
+  padding: 2px 0;
+  cursor: none;
+}
+.mm-label {
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--mut);
+  opacity: 0;
+  transform: translateX(6px);
+  transition: opacity 0.25s ease, transform 0.25s var(--ease-smooth), color 0.25s ease;
+  white-space: nowrap;
+}
+.mm-tick {
+  width: 22px;
+  height: 2px;
+  background: var(--mut);
+  opacity: 0.5;
+  transition: width 0.3s var(--ease-smooth), background 0.3s ease, opacity 0.3s ease;
+}
+.mm-item:hover .mm-label {
+  opacity: 1;
+  transform: none;
+  color: var(--ink);
+}
+.mm-item:hover .mm-tick {
+  width: 30px;
+  opacity: 1;
+}
+.mm-item.on .mm-tick {
+  width: 38px;
+  opacity: 1;
+  background: var(--acc);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--acc) 60%, transparent);
+}
+.mm-item.on .mm-label {
+  color: var(--acc);
+}
+@media (max-width: 900px) {
+  .minimap {
+    display: none;
+  }
+}
+
+/* --------------------------------- SCROLL-VELOCITY CINEMATICS -------------- */
+.velscan {
+  position: fixed;
+  inset: 0;
+  z-index: 82;
+  pointer-events: none;
+  opacity: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0,
+    transparent 2px,
+    rgba(255, 255, 255, 0.5) 3px,
+    transparent 4px
+  );
+  mix-blend-mode: overlay;
+  will-change: opacity;
+}
+/* Chromatic aberration on the big accent words, scaled by scroll velocity. Only
+   active while `moving` so the words stay perfectly clean at rest. */
+html.moving .hero-name .outline > span,
+html.moving .story-head .accent > span,
+html.moving .disc-title .accent > span,
+html.moving .road-quote .accent > span,
+html.moving .work-title .accent,
+html.moving .contact-statement .accent {
+  text-shadow: var(--split, 0px) 0 rgba(255, 40, 90, 0.55),
+    calc(var(--split, 0px) * -1) 0 rgba(40, 200, 255, 0.55);
+}
+html.lowfx {
+  --split: 0px !important;
+}
+html.lowfx .velscan {
+  display: none;
+}
+
+/* --------------------------------------------------------- ATTRACT MODE ---- */
+.attract {
+  position: fixed;
+  left: 50%;
+  bottom: 12%;
+  transform: translate(-50%, 12px);
+  z-index: 118;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.8s ease, transform 0.8s var(--ease-smooth);
+}
+.attract.on {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+.attract-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--acc);
+  box-shadow: 0 0 16px var(--acc);
+  animation: attractPulse 1.8s ease-in-out infinite;
+}
+.attract-text {
+  font-family: var(--f-display);
+  font-size: 22px;
+  letter-spacing: 0.22em;
+  color: var(--ink);
+}
+.attract-sub {
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--mut);
+}
+@keyframes attractPulse {
+  50% {
+    transform: scale(1.5);
+    opacity: 0.4;
   }
 }

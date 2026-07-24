@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader.js';
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -49,6 +50,16 @@ export function initThree(): void {
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 
   const scene = new THREE.Scene();
+
+  // Image-based lighting: a procedural room environment gives the metal parts
+  // real reflections without shipping an HDR. Guarded — if PMREM/env fails on a
+  // weak GPU we just fall back to the analytic lights below.
+  try {
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+  } catch {
+    /* no IBL — analytic lights still light the scene */
+  }
   const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
   camera.position.set(0, 0, 6);
 
@@ -69,8 +80,9 @@ export function initThree(): void {
 
   const material = new THREE.MeshStandardMaterial({
     color: 0xb8b8bd,
-    metalness: 0.55,
-    roughness: 0.42,
+    metalness: 0.72,
+    roughness: 0.34,
+    envMapIntensity: 0.9,
   });
 
   const clearGroup = () => {

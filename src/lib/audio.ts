@@ -8,6 +8,8 @@ import { emit, isTyping } from './bus';
 const KEY = 'ss-sound';
 let ctx: AudioContext | null = null;
 let master: GainNode | null = null;
+let analyser: AnalyserNode | null = null;
+let freqData: Uint8Array<ArrayBuffer> | null = null;
 let on = false;
 let lastTick = 0;
 
@@ -20,8 +22,30 @@ function ensureCtx(): void {
     master = ctx.createGain();
     master.gain.value = 0.9;
     master.connect(ctx.destination);
+    // analyser tap for the visualizer (a read-only branch off master)
+    analyser = ctx.createAnalyser();
+    analyser.fftSize = 64;
+    analyser.smoothingTimeConstant = 0.82;
+    master.connect(analyser);
+    freqData = new Uint8Array(new ArrayBuffer(analyser.frequencyBinCount));
   }
   if (ctx.state === 'suspended') ctx.resume().catch(() => {});
+}
+
+// Normalized frequency-band levels (0..1) for the dock visualizer. Returns zeros
+// when sound is off or the graph isn't up yet.
+export function getBars(n = 4): number[] {
+  if (!on || !analyser || !freqData) return new Array(n).fill(0);
+  analyser.getByteFrequencyData(freqData);
+  const bins = freqData.length;
+  const out: number[] = [];
+  const per = Math.max(1, Math.floor(bins / n));
+  for (let i = 0; i < n; i++) {
+    let sum = 0;
+    for (let j = 0; j < per; j++) sum += freqData[i * per + j] ?? 0;
+    out.push(Math.min(sum / per / 255, 1));
+  }
+  return out;
 }
 
 function tone(freq: number, dur: number, type: OscillatorType, peak: number, glideTo?: number): void {

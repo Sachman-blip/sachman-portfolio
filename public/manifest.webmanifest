@@ -1,0 +1,19 @@
+{
+  "name": "Sachman Singh — Engineer · Fighter · Rider",
+  "short_name": "Sachman Singh",
+  "description": "Engineer, national kickboxing champion, rider and builder. Stay curious. Build things. Keep moving forward.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0b",
+  "theme_color": "#0a0a0b",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any maskable"
+    }
+  ]
+}

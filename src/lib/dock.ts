@@ -4,7 +4,7 @@
 // and keyboard, so the dock is pure affordance.
 
 import { on } from './bus';
-import { toggleSound, isSoundOn } from './audio';
+import { toggleSound, isSoundOn, getBars } from './audio';
 
 export function initDock(): void {
   const dock = document.createElement('div');
@@ -36,6 +36,20 @@ export function initDock(): void {
   paintSound(isSoundOn());
   soundBtn.addEventListener('click', () => paintSound(toggleSound()));
   on<{ on: boolean }>('ss:sound', (d) => paintSound(d.on));
+
+  // Real-time visualizer: drive the EQ bar heights from the audio analyser when
+  // sound is on. Idle floor keeps them subtly alive; blips spike them.
+  const bars = () => Array.from(soundBtn.querySelectorAll<HTMLElement>('.dock-eq i'));
+  const viz = () => {
+    requestAnimationFrame(viz);
+    if (!isSoundOn()) return;
+    const levels = getBars(4);
+    bars().forEach((b, i) => {
+      const h = 3 + levels[i] * 11;
+      b.style.height = h.toFixed(1) + 'px';
+    });
+  };
+  requestAnimationFrame(viz);
 
   dock.append(cmdBtn, soundBtn);
   document.body.appendChild(dock);

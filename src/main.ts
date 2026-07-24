@@ -29,6 +29,10 @@ import { initScramble } from './lib/scramble';
 import { initSecrets } from './lib/secrets';
 import { initFlowField } from './lib/flowfield';
 import { initTerminal } from './lib/terminal';
+import { initNav } from './lib/nav';
+import { initSectionFx } from './lib/sectionfx';
+import { initIdle } from './lib/idle';
+import { initPWA } from './lib/pwa';
 
 // Flag for CSS that should only apply once JS is driving animations.
 document.documentElement.classList.add('js-anim');
@@ -64,6 +68,10 @@ function boot(): void {
   initScramble();
   initFlowField();
   initTerminal();
+  initNav();
+  initSectionFx();
+  initIdle();
+  initPWA();
   initPalette();
   initDock();
 
