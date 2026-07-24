@@ -36,6 +36,8 @@ import { initPWA } from './lib/pwa';
 import { initFluid } from './lib/fluid';
 import { initStats } from './lib/stats';
 import { initTilt } from './lib/tilt';
+import { initGravity } from './lib/gravity';
+import { initWorkPhysics } from './lib/workfx';
 import { initSignature } from './lib/signature';
 import { marquee } from './lib/scrollFx';
 
@@ -114,6 +116,8 @@ function boot(): void {
   safe('nav', initNav);
   safe('sectionFx', initSectionFx);
   safe('tilt', initTilt); // pointer 3D tilt on [data-tilt] cards (stats/radar)
+  safe('gravity', initGravity); // cursor gravity on the big display headings
+  safe('workPhysics', initWorkPhysics); // cursor-follow slide on work rows
   safe('idle', initIdle);
   safe('pwa', initPWA);
   safe('palette', initPalette);
