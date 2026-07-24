@@ -73,7 +73,7 @@ export function initThree(): void {
   const fill = new THREE.DirectionalLight(0xffffff, 0.5);
   fill.position.set(-5, 2, 3);
   scene.add(fill);
-  const rim = new THREE.DirectionalLight(accentColor(), 3);
+  const rim = new THREE.DirectionalLight(accentColor(), 1.8);
   rim.position.set(-6, -3, -4);
   scene.add(rim);
 
@@ -84,7 +84,9 @@ export function initThree(): void {
   try {
     composer = new EffectComposer(renderer);
     composer.addPass(new RenderPass(scene, camera));
-    composer.addPass(new UnrealBloomPass(new THREE.Vector2(1, 1), 0.55, 0.5, 0.82));
+    // Gentler bloom — only the brightest edges glow, so the parts read as solid
+    // metal rather than glossy plastic.
+    composer.addPass(new UnrealBloomPass(new THREE.Vector2(1, 1), 0.3, 0.45, 0.9));
   } catch {
     composer = null;
   }
@@ -106,9 +108,11 @@ export function initThree(): void {
 
   const material = new THREE.MeshStandardMaterial({
     color: 0xb8b8bd,
-    metalness: 0.72,
-    roughness: 0.34,
-    envMapIntensity: 0.9,
+    // Toned down from chrome → machined/brushed metal: less metalness, rougher
+    // surface and a softer environment reflection.
+    metalness: 0.48,
+    roughness: 0.58,
+    envMapIntensity: 0.5,
   });
 
   const clearGroup = () => {
@@ -288,6 +292,8 @@ export function initThree(): void {
 
     group.rotation.y = spin + scrollRot.y;
     group.rotation.x = tiltX + Math.sin(scrollRot.y * 0.5) * 0.2;
+    // gentle idle float so the part feels alive, not pinned in space
+    group.position.y = Math.sin(performance.now() * 0.0012) * 0.06;
     renderFrame();
   };
   loop();

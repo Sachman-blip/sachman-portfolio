@@ -35,6 +35,7 @@ function buildTiles(row: HTMLElement): (() => void)[] {
   STATS.forEach((s) => {
     const tile = document.createElement('div');
     tile.className = 'stat-tile';
+    tile.setAttribute('data-tilt', '');
     const num = document.createElement('span');
     num.className = 'stat-num';
     num.textContent = '0' + s.suffix;
@@ -126,6 +127,7 @@ export function initStats(): void {
 
   const runners = buildTiles(row);
   buildRadar(radar);
+  radar.setAttribute('data-tilt', '');
   buildTimeline(timeline);
 
   if (reduce) {

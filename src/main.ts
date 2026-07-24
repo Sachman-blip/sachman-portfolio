@@ -36,6 +36,7 @@ import { initPWA } from './lib/pwa';
 import { initBgFx } from './lib/bgfx';
 import { initTrail } from './lib/trail';
 import { initStats } from './lib/stats';
+import { initTilt } from './lib/tilt';
 import { marquee } from './lib/scrollFx';
 
 // Flag for CSS that should only apply once JS is driving animations.
@@ -81,6 +82,7 @@ function boot(): void {
   initNav();
   initSectionFx();
   initTrail();
+  initTilt(); // pointer 3D tilt on [data-tilt] cards (stats/radar)
   initIdle();
   initPWA();
   initPalette();
