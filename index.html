@@ -13,10 +13,44 @@
       name="description"
       content="Sachman Singh — engineer, national kickboxing champion, rider and builder. Relentlessly curious: why does it work like that?"
     />
+    <meta name="author" content="Sachman Singh" />
+    <meta
+      name="keywords"
+      content="Sachman Singh, engineer, kickboxing champion, robotics, CAD, embedded systems, portfolio, Jalandhar"
+    />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://sachmansingh.in/" />
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Sachman Singh" />
     <meta property="og:title" content="Sachman Singh — Engineer · Fighter · Rider" />
     <meta property="og:description" content="Stay curious. Build things. Keep moving forward." />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/assets/face-road.jpg" />
+    <meta property="og:url" content="https://sachmansingh.in/" />
+    <meta property="og:image" content="https://sachmansingh.in/assets/face-road.jpg" />
+    <meta property="og:image:alt" content="Sachman Singh" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Sachman Singh — Engineer · Fighter · Rider" />
+    <meta name="twitter:description" content="Stay curious. Build things. Keep moving forward." />
+    <meta name="twitter:image" content="https://sachmansingh.in/assets/face-road.jpg" />
+
+    <!-- Structured data (Person) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Sachman Singh",
+        "url": "https://sachmansingh.in/",
+        "jobTitle": "Engineer",
+        "description": "Engineer, national kickboxing champion, rider and builder.",
+        "knowsAbout": ["Robotics", "CAD", "Embedded Systems", "Controls", "Mechatronics"],
+        "address": { "@type": "PostalAddress", "addressLocality": "Jalandhar", "addressCountry": "IN" },
+        "email": "mailto:sachman.singh.saund@gmail.com",
+        "sameAs": ["https://instagram.com/sachman.singh", "https://github.com/Sachman-blip"]
+      }
+    </script>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -32,6 +66,8 @@
     <title>Sachman Singh — Engineer · Fighter · Rider</title>
   </head>
   <body>
+    <a class="skip-link" href="#story">Skip to content</a>
+
     <!-- Boot sequence (paints before JS; driven + removed by boot.ts) -->
     <div class="boot" id="boot" aria-hidden="true">
       <div class="boot-inner">

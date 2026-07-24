@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>404 — Off the map · Sachman Singh</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0a0a0b;
+        --ink: #f4f4f1;
+        --mut: #76766f;
+        --acc: #c8ff00;
+        --line: rgba(255, 255, 255, 0.09);
+      }
+      * {
+        margin: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        background: var(--bg);
+        background-image: radial-gradient(ellipse 120% 80% at 50% -10%, rgba(200, 255, 0, 0.05), transparent 60%);
+        color: var(--ink);
+        font-family: "Space Mono", ui-monospace, monospace;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        padding: 24px;
+        overflow: hidden;
+      }
+      .grid {
+        position: fixed;
+        inset: 0;
+        background-image: linear-gradient(var(--line) 1px, transparent 1px),
+          linear-gradient(90deg, var(--line) 1px, transparent 1px);
+        background-size: 48px 48px;
+        mask-image: radial-gradient(circle at 50% 45%, #000, transparent 72%);
+        opacity: 0.5;
+        pointer-events: none;
+      }
+      .wrap {
+        position: relative;
+      }
+      .big {
+        font-family: "Anton", "Arial Narrow", sans-serif;
+        font-size: clamp(120px, 30vw, 320px);
+        line-height: 0.82;
+        letter-spacing: 0.02em;
+      }
+      .big span {
+        -webkit-text-stroke: 3px var(--acc);
+        color: transparent;
+      }
+      .tag {
+        font-size: 11px;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: var(--acc);
+        margin-bottom: 18px;
+      }
+      .msg {
+        color: var(--mut);
+        margin: 22px 0 30px;
+        letter-spacing: 0.04em;
+      }
+      a.home {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        border: 1px solid var(--line);
+        color: var(--ink);
+        text-decoration: none;
+        padding: 12px 20px;
+        font-size: 12px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        transition: border-color 0.2s, color 0.2s;
+      }
+      a.home:hover {
+        border-color: var(--acc);
+        color: var(--acc);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid"></div>
+    <div class="wrap">
+      <p class="tag">// ERR — ROUTE NOT FOUND</p>
+      <h1 class="big">4<span>0</span>4</h1>
+      <p class="msg">This road doesn't lead anywhere. Let's get you back on track.</p>
+      <a class="home" href="/">← Back to the start ↑</a>
+    </div>
+  </body>
+</html>

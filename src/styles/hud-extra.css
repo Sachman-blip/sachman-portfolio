@@ -4,6 +4,27 @@
    overdrive mode · toasts. All in the site's mono/technical HUD language.
    ========================================================================= */
 
+/* ------------------------------------------------------------- SKIP LINK --- */
+.skip-link {
+  position: fixed;
+  top: -120px;
+  left: 12px;
+  z-index: 320;
+  background: var(--acc);
+  color: #000;
+  padding: 10px 16px;
+  font-family: var(--f-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: top 0.2s var(--ease-smooth);
+}
+.skip-link:focus {
+  top: 12px;
+  outline: none;
+}
+
 /* ----------------------------------------------------------------- BOOT --- */
 .boot {
   position: fixed;

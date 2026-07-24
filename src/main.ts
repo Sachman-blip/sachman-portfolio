@@ -37,10 +37,13 @@ import { initBgFx } from './lib/bgfx';
 import { initTrail } from './lib/trail';
 import { initStats } from './lib/stats';
 import { initTilt } from './lib/tilt';
+import { initSignature } from './lib/signature';
 import { marquee } from './lib/scrollFx';
 
 // Flag for CSS that should only apply once JS is driving animations.
 document.documentElement.classList.add('js-anim');
+
+initSignature();
 
 function boot(): void {
   // Theme first: everything downstream (favicon, WebGL rim light) reads --acc.

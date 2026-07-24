@@ -4,7 +4,7 @@
 
 // ---- EDIT ME: real numbers make this section land -------------------------
 const STATS: { value: number; suffix: string; label: string }[] = [
-  { value: 8, suffix: '+', label: 'Years training' },
+  { value: 6, suffix: '', label: 'Years training' },
   { value: 3, suffix: '', label: 'National medals' },
   { value: 6, suffix: '', label: 'Things built' },
   { value: 40, suffix: '+', label: 'CAD parts designed' },
@@ -20,10 +20,10 @@ const SKILLS: [string, number][] = [
 ];
 
 const TIMELINE: [string, string][] = [
-  ['2016', 'Stepped into the ring — learned there is no ceiling.'],
-  ['2019', 'National kickboxing champion.'],
-  ['2021', 'First serious build — a 6-DOF robotic arm.'],
-  ['2023', 'Deep into embedded systems, controls and CAD.'],
+  ['2020', 'Stepped into the ring — learned there is no ceiling.'],
+  ['2022', 'National kickboxing champion.'],
+  ['2023', 'First serious build — a 6-DOF robotic arm.'],
+  ['2024', 'Deep into embedded systems, controls and CAD.'],
   ['2026', 'Building relentlessly — chasing the next limit.'],
 ];
 // ---------------------------------------------------------------------------
