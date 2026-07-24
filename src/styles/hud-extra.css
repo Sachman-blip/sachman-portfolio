@@ -65,6 +65,10 @@
   letter-spacing: 0.02em;
   color: var(--ink);
   position: relative;
+  /* glow + micro-scale ramp driven by boot progress (--p: 0 → 1) */
+  transform: scale(calc(0.94 + var(--p, 0) * 0.06));
+  text-shadow: 0 0 calc(var(--p, 0) * 46px) color-mix(in srgb, var(--acc) 70%, transparent);
+  transition: text-shadow 0.1s linear;
 }
 .boot-mark::after {
   content: "";
@@ -134,6 +138,42 @@
 /* keep the page from scrolling under the boot curtain */
 html.booting {
   overflow: hidden;
+}
+
+/* Ignition — a single accent bloom as the curtain lifts and the site "lights up" */
+.boot-flash {
+  position: fixed;
+  inset: 0;
+  z-index: 299;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0;
+  background: radial-gradient(
+    circle at 50% 54%,
+    color-mix(in srgb, var(--acc) 55%, transparent),
+    transparent 60%
+  );
+}
+.boot-flash.on {
+  animation: bootIgnite 0.85s ease-out forwards;
+}
+@keyframes bootIgnite {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  16% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.15);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .boot-flash {
+    display: none;
+  }
 }
 
 /* -------------------------------------------------------------- PALETTE --- */

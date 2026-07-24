@@ -16,11 +16,21 @@ const LINES = [
   'SYSTEM READY',
 ];
 
-function done(boot: HTMLElement): void {
+// A single-frame accent bloom as the curtain lifts — the "ignition" of the site.
+function ignite(): void {
+  const f = document.createElement('div');
+  f.className = 'boot-flash';
+  document.body.appendChild(f);
+  requestAnimationFrame(() => f.classList.add('on'));
+  window.setTimeout(() => f.remove(), 900);
+}
+
+function done(boot: HTMLElement, flash: boolean): void {
   boot.classList.add('done');
   const root = document.documentElement;
   root.classList.remove('booting'); // release the scroll lock
   root.classList.add('booted');
+  if (flash) ignite();
   // Fire as the curtain BEGINS lifting so the hero entrance plays on-screen,
   // sweeping into view with the curtain rather than hidden behind it.
   emit('ss:booted');
@@ -44,7 +54,7 @@ export function initBoot(): void {
     if (pctEl) pctEl.textContent = '100';
     if (bar) bar.style.transform = 'scaleX(1)';
     if (log) log.textContent = LINES[LINES.length - 1];
-    window.setTimeout(() => done(boot), 200);
+    window.setTimeout(() => done(boot, false), 200);
     return;
   }
 
@@ -61,6 +71,7 @@ export function initBoot(): void {
 
     if (pctEl) pctEl.textContent = String(pct);
     if (bar) bar.style.transform = `scaleX(${eased})`;
+    boot.style.setProperty('--p', eased.toFixed(3)); // drives the monogram glow ramp
 
     const targetLines = Math.floor((pct / 100) * LINES.length);
     while (shown < targetLines && shown < LINES.length) {
@@ -84,7 +95,7 @@ export function initBoot(): void {
         }
         shown++;
       }
-      window.setTimeout(() => done(boot), 320);
+      window.setTimeout(() => done(boot, true), 320);
     }
   };
   requestAnimationFrame(tick);
