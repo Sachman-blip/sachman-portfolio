@@ -12,6 +12,7 @@ type Dot = { x: number; y: number; vx: number; vy: number; life: number; r: numb
 export function initTrail(): void {
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if (!matchMedia('(hover: hover)').matches) return; // pointer-driven only
+  if ((navigator as unknown as { connection?: { saveData?: boolean } }).connection?.saveData) return;
 
   const canvas = document.createElement('canvas');
   canvas.className = 'trailfx';
@@ -68,6 +69,7 @@ export function initTrail(): void {
 
   const loop = () => {
     requestAnimationFrame(loop);
+    if (document.hidden) return;
     ctx.clearRect(0, 0, innerWidth, innerHeight);
     ctx.globalCompositeOperation = 'screen';
     for (let i = dots.length - 1; i >= 0; i--) {

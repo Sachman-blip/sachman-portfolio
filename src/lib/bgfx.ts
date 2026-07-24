@@ -72,6 +72,9 @@ function hexToRgb(hex: string): [number, number, number] {
 }
 
 export function initBgFx(): void {
+  // Respect data-saver: keep the solid dark background instead of a live shader.
+  if ((navigator as unknown as { connection?: { saveData?: boolean } }).connection?.saveData) return;
+
   const canvas = document.createElement('canvas');
   canvas.id = 'bgfx';
   canvas.setAttribute('aria-hidden', 'true');

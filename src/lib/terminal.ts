@@ -95,6 +95,7 @@ export function initTerminal(): void {
         ['overdrive', 'toggle OVERDRIVE mode'],
         ['matrix', 'it begins…'],
         ['stack', 'what this site is built with'],
+        ['sys', 'system / device readout'],
         ['contact', 'how to reach me'],
         ['date', 'current date/time'],
         ['clear', 'clear the screen'],
@@ -171,6 +172,19 @@ export function initTerminal(): void {
       printHTML('  github    <span class="term-accent">github.com/Sachman-blip</span>');
     },
     date: () => print(new Date().toString()),
+    sys: () => {
+      print('SYSTEM', 'term-accent');
+      print('  browser  ' + navigator.userAgent.slice(0, 62));
+      print('  screen   ' + `${screen.width}×${screen.height} @${window.devicePixelRatio}x`);
+      print('  viewport ' + `${innerWidth}×${innerHeight}`);
+      print('  cores    ' + (navigator.hardwareConcurrency || '?'));
+      print('  lang     ' + navigator.language);
+      print('  accent   ' + currentAccent().name);
+    },
+    history: () => {
+      if (!history.length) return print('(no history)');
+      history.forEach((h, i) => print('  ' + String(i + 1).padStart(3, ' ') + '  ' + h));
+    },
     echo: (args) => print(args.join(' ')),
     sudo: () => print("nice try. you already have root here — it's your browser.", 'term-err'),
     clear: () => {

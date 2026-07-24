@@ -43,53 +43,66 @@ import { marquee } from './lib/scrollFx';
 // Flag for CSS that should only apply once JS is driving animations.
 document.documentElement.classList.add('js-anim');
 
-initSignature();
+// Run an init in isolation: if any single module throws, log it and keep the
+// rest of the site working rather than white-screening. Critical for a feature
+// layer this large — one bad WebGL/analyser call must not sink everything.
+function safe(name: string, fn: () => void): void {
+  try {
+    fn();
+  } catch (err) {
+    console.warn(`[init] ${name} failed:`, err);
+  }
+}
+
+safe('signature', initSignature);
 
 function boot(): void {
   // Theme first: everything downstream (favicon, WebGL rim light) reads --acc.
-  initTheme();
-  initBoot();
+  safe('theme', initTheme);
+  safe('boot', initBoot);
 
-  initSmoothScroll();
-  initCursor();
+  safe('smoothScroll', initSmoothScroll);
+  safe('cursor', initCursor);
 
   // Content + behaviour
-  initHero();
-  initStory();
-  initDiscipline();
-  initRoad();
-  initWork();
-  initStats();
-  initContact();
-  deferThree();
+  safe('hero', initHero);
+  safe('story', initStory);
+  safe('discipline', initDiscipline);
+  safe('road', initRoad);
+  safe('work', initWork);
+  safe('stats', initStats);
+  safe('contact', initContact);
+  safe('deferThree', deferThree);
 
   // Cinematic capabilities marquee (velocity-aware, reuses scrollFx).
-  const capTrack = document.getElementById('capTrack');
-  if (capTrack) marquee(capTrack, 0.6);
+  safe('capMarquee', () => {
+    const capTrack = document.getElementById('capTrack');
+    if (capTrack) marquee(capTrack, 0.6);
+  });
 
   // Interaction polish across the now-built DOM.
-  initMagnetic();
-  initHud();
+  safe('magnetic', initMagnetic);
+  safe('hud', initHud);
 
   // Feature layer: command palette, sound, telemetry, easter eggs.
-  initPerf(); // adaptive quality — must precede consumers (flow-field density)
-  initAudio();
-  initBgFx(); // GLSL living backdrop (reads accent, audio level, quality)
-  initTelemetry();
-  initFavicon();
-  initKonami();
-  initSecrets();
-  initScramble();
-  initFlowField();
-  initTerminal();
-  initNav();
-  initSectionFx();
-  initTrail();
-  initTilt(); // pointer 3D tilt on [data-tilt] cards (stats/radar)
-  initIdle();
-  initPWA();
-  initPalette();
-  initDock();
+  safe('perf', initPerf); // adaptive quality — must precede consumers (flow-field density)
+  safe('audio', initAudio);
+  safe('bgfx', initBgFx); // GLSL living backdrop (reads accent, audio level, quality)
+  safe('telemetry', initTelemetry);
+  safe('favicon', initFavicon);
+  safe('konami', initKonami);
+  safe('secrets', initSecrets);
+  safe('scramble', initScramble);
+  safe('flowField', initFlowField);
+  safe('terminal', initTerminal);
+  safe('nav', initNav);
+  safe('sectionFx', initSectionFx);
+  safe('trail', initTrail);
+  safe('tilt', initTilt); // pointer 3D tilt on [data-tilt] cards (stats/radar)
+  safe('idle', initIdle);
+  safe('pwa', initPWA);
+  safe('palette', initPalette);
+  safe('dock', initDock);
 
   // Layout is now fully built — recompute trigger positions.
   ScrollTrigger.refresh();

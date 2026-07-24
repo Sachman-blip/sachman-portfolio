@@ -328,7 +328,7 @@ export function initPalette(): void {
       return;
     }
     if (open || isTyping(e.target) || e.metaKey || e.ctrlKey || e.altKey) return;
-    if (e.key === '/') {
+    if (e.key === '/' || e.key === '?') {
       e.preventDefault();
       show();
     }
