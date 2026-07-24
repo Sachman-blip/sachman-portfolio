@@ -92,6 +92,22 @@ function buildCommands(close: () => void): Cmd[] {
       run: () => toggleOverdrive(),
     },
     {
+      id: 'background',
+      label: 'Switch background · fluid ⇄ flow-field',
+      hint: '⟳',
+      group: 'SYSTEM',
+      keywords: 'background fluid flow field particles simulation webgl',
+      run: () => {
+        try {
+          const cur = localStorage.getItem('ss-bg');
+          localStorage.setItem('ss-bg', cur === 'flow' ? 'fluid' : 'flow');
+        } catch {
+          /* ignore */
+        }
+        location.reload();
+      },
+    },
+    {
       id: 'terminal',
       label: 'Open terminal',
       hint: '`',

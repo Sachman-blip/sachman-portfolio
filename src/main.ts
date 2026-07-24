@@ -33,6 +33,7 @@ import { initNav } from './lib/nav';
 import { initSectionFx } from './lib/sectionfx';
 import { initIdle } from './lib/idle';
 import { initPWA } from './lib/pwa';
+import { initFluid } from './lib/fluid';
 import { initStats } from './lib/stats';
 import { initTilt } from './lib/tilt';
 import { initSignature } from './lib/signature';
@@ -85,7 +86,25 @@ function boot(): void {
   // Feature layer: command palette, sound, telemetry, easter eggs.
   safe('perf', initPerf); // adaptive quality — must precede consumers (flow-field density)
   safe('audio', initAudio);
-  safe('flowField', initFlowField); // the global living backdrop
+  // Global living backdrop: GPU fluid sim by default, Canvas2D flow-field as the
+  // fallback (and as a user-selectable alternative persisted in ss-bg).
+  safe('background', () => {
+    let pref: string | null = null;
+    try {
+      pref = localStorage.getItem('ss-bg');
+    } catch {
+      /* ignore */
+    }
+    let ok = false;
+    if (pref !== 'flow') {
+      try {
+        ok = initFluid();
+      } catch {
+        ok = false;
+      }
+    }
+    if (!ok) initFlowField();
+  });
   safe('telemetry', initTelemetry);
   safe('favicon', initFavicon);
   safe('konami', initKonami);
